@@ -1,0 +1,13 @@
+- hosts: test
+  become: yes
+  vars:
+    logdir: /var/log/app
+  tasks:
+    - name: make user for executing
+      user: name=appuser
+    - name: make directory for log
+      file: path={{ logdir }} state=directory
+    - name: install epel
+      yum: name=epel-release state=latest
+    - name: install nginx
+      yum: name=nginx state=latest

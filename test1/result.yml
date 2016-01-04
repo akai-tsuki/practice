@@ -1,0 +1,11 @@
+- hosts: test
+  become: yes
+  vars:
+    logdir: /var/log/app
+  tasks:
+    - name: get result
+      shell: touch /tmp/hoge creates=/tmp/hoge
+      register: result
+    - name: print result
+      debug: msg="{{ result.stderr }}"
+      when: result.stdout != ""

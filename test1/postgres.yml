@@ -5,20 +5,39 @@
     logdir: /var/log/app
   tasks:
     - name: install repo.postgresql
-      shell: rpm -Uvh http://yum.postgresql.org/9.4/redhat/rhel-7-x86_64/pgdg-centos94-9.4-1.noarch.rpm
+      yum: name=http://yum.postgresql.org/9.4/redhat/rhel-7-x86_64/pgdg-centos94-9.4-1.noarch.rpm
 
     - name: install postgresql
       yum: name={{ item }} state=latest
       with_items:
         - postgresql94-server
         - postgresql94-contrib
+        - postgresql94-devel
         - python-psycopg2
+
+    - name: get info postgresql directory
+      stat: path=/var/lib/pgsql/9.4/data/pg_log
+      register: result
+    
+    - name: debug msg about postgresql dir.
+      debug: var=result
+  
+#    - name: check directory
+#      fail: msg="directory not found"
+#      when: result.stat.exists == False or result.stat.isdir == False
 
     - name: postgresql initdb
       shell: /usr/pgsql-9.4/bin/postgresql94-setup initdb
+      when: result.stat.exists == False or result.stat.isdir == False
 
     - name: backup pg_hba.conf
       shell: mv /var/lib/pgsql/9.4/data/pg_hba.conf /var/lib/pgsql/9.4/data/pg_hba.conf.default
 
-    - name: setting pg_hba.con
+    - name: setting pg_hba.conf
       copy: src=pg_hba.conf dest=/var/lib/pgsql/9.4/data/pg_hba.conf owner=postgres group=postgres mode=0600
+
+    - name: backup postgresql.conf
+      shell: mv /var/lib/pgsql/9.4/data/postgresql.conf /var/lib/pgsql/9.4/data/postgresql.conf.default
+
+    - name: setting postgresql.conf
+      copy: src=postgresql.conf dest=/var/lib/pgsql/9.4/data/postgresql.conf owner=postgres group=postgres mode=0600

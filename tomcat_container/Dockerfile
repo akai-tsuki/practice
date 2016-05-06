@@ -2,7 +2,7 @@ FROM centos
 
 ENV OPEN_JDK java-1.8.0-openjdk.x86_64
 ENV OPEN_JDK_DEVEL java-1.8.0-openjdk-devel.x86_64
-ENV JAVA_HOME /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.91-0.b14.el7_2.x86_64
+ENV JAVA_HOME /usr/lib/jvm/java-1.8.0-openjdk
 
 ENV CATALINA_HOME /usr/local/tomcat
 ENV PATH $CATALINA_HOME/bin:$PATH

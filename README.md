@@ -12,5 +12,6 @@
 
     $ docker run -it -d --name tomcat-c -p 8888:8080 -p 2222:22 mytomcat
 or
+
     $ sh init.sh
 

@@ -15,6 +15,17 @@ ENV TOMCAT_VERSION 8.0.33
 
 ENV TOMCAT_TGZ_URL $MIRROR_SITE/tomcat/tomcat-$TOMCAT_MAJOR/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz
 
+# for Japan
+RUN echo "include_only=.jp" >>  /etc/yum/pluginconf.d/fastestmirror.conf
+
+# ssh (create ssh_host_rsa_key for sshd daemon)
+RUN set -x \
+        && yum -y install openssh-server \
+        && sed -ri 's/^#PermitRootLogin yes/PermitRootLogin yes/' /etc/ssh/sshd_config \
+        && ssh-keygen -t rsa -N "" -f /etc/ssh/ssh_host_rsa_key \
+        && mkdir -p ~root/.ssh/
+
+# java/tomcat
 RUN set -x \
         \
         && yum install -y "$OPEN_JDK" "$OPEN_JDK_DEVEL" \
@@ -23,5 +34,6 @@ RUN set -x \
         && rm -f bin/*.bat \
         && rm -f tomcat.tar.gz*
         
-EXPOSE 8080
-CMD ["catalina.sh", "run"]
+EXPOSE 22 8080
+CMD ["/usr/sbin/sshd", "-D"]
+# CMD ["catalina.sh", "run"]

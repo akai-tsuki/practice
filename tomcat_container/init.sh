@@ -10,5 +10,14 @@ docker cp authorized_keys ${CONTAINER}:/root/.ssh/authorized_keys
 docker exec ${CONTAINER} chmod 600 /root/.ssh/authorized_keys
 
 ### ssh exsample
+#
 # docker exec -d ${CONTAINER} /usr/sbin/sshd -D
-# ssh root@172.17.0.2 -i root_ssh_rsa_key
+#
+# CON_IP=`docker inspect --format="{{ .NetworkSettings.IPAddress }}" ${CONTAINER}`
+#   -->> show ip address
+# 
+# chmod 600 ~/.ssh/root_ssh_rsa_key
+# cp -fp root_ssh_rsa_key ~/.ssh/root_ssh_rsa_key
+# chmod 400 ~/.ssh/root_ssh_rsa_key
+# ssh root@${CON_IP} -i ~/.ssh/root_ssh_rsa_key
+#

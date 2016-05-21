@@ -220,3 +220,8 @@ pip-log.txt
 ## Ansible
 #############
 *.retry
+
+#############
+## SSH
+#############
+authorized_keys

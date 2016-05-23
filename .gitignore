@@ -225,3 +225,4 @@ pip-log.txt
 ## SSH
 #############
 authorized_keys
+root_ssh_rsa_key

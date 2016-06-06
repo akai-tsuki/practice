@@ -20,7 +20,7 @@ fi
 docker cp ${SSH_KEY_PATH} ${SSH_CLIENT}:/root/.ssh
 docker exec ${SSH_CLIENT} chmod 400 /root/.ssh/root_ssh_rsa_key
 
-echo "# ssh ${CONTAINER} -i ~/.ssh/root_ssh_rsa_key"
-docker exec -it ${SSH_CLIENT} bash
+echo "# docker exec -it ${SSH_CLIENT} bash"
+echo "container # ssh ${CONTAINER} -i ~/.ssh/root_ssh_rsa_key"
 
 
